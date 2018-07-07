@@ -15,5 +15,6 @@ phases:
     commands:
       - echo Build completed on `date`
 artifacts:
+  discard-paths: yes
   files:
     - lambda-sap-oauth-0.0.1-SNAPSHOT.jar
