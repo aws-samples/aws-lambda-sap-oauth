@@ -29,6 +29,7 @@ public class OAuth2SAML2AccessToken {
 			String assertionString = stf.getSamlAssertion(_cfg);
 			
 			String postUrl =  PropertyHandler.getValue(_cfg, PropertyHandler.CFG_AWS_NLB_URL);
+			System.out.println(".....URL to post is " + postUrl );
 			String oa2Username =  PropertyHandler.getValue(_cfg, PropertyHandler.CFG_OA2_CLIENT_ID);
 			String oa2Password =  PropertyHandler.getValue(_cfg, PropertyHandler.CFG_OAUTH_CLIENT_PASSWORD);
 		

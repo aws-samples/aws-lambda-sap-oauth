@@ -41,25 +41,39 @@ public class SAPOAuthHandler implements RequestStreamHandler{
 		String responseCode = "200";
 		//configProps.putAll(System.getenv());
 		
+		StringWriter sw = new StringWriter();
+		PrintWriter pw = new PrintWriter(sw);
+		
 		try {
+			
+			System.out.println("I am here!");
+			
 			JSONObject responseBody = new JSONObject();
+			System.out.println("Got JSON Object");
 			
 			//Get the event object from input
 			JSONObject event = (JSONObject)parser.parse(inputReader);
+			System.out.println("Got Event");
 			String bodyString = (String) event.get("body");
+			System.out.println("Got Body String: " +  bodyString);
 			JSONObject body = (JSONObject)parser.parse(bodyString);
 			
 			//Get the properties from event body
 			String action = (String) body.get("action");
+			System.out.println("Action is: " + action);
 			String scope = (String) body.get("scope");
-		
+			System.out.println("Scope is: " + scope);
+			
 			JSONObject propsJSON = (JSONObject)body.get("properties");
+			System.out.println("Got Properties JSON object");
 			Set<String> propKeys = propsJSON.keySet();
+			System.out.println("Properties is: " + propKeys.toString());
 			for (String p:propKeys) {
 				configProps.setProperty(p, (String) propsJSON.get(p)); 
 			}
 			
 			logger = new ExecutionLogger(context, configProps);
+			System.out.println("Got logger");
 			String nameid = getNameId(event);
 			configProps.setProperty("saml_nameid", nameid);
 	
@@ -79,7 +93,9 @@ public class SAPOAuthHandler implements RequestStreamHandler{
 		}catch(Exception ex) {
 			//logger.log("Kaput! Error in handling this request: ",ex);
 			responseJson.put("statusCode", "400");
-            responseJson.put("exception", ex);
+			ex.printStackTrace(pw);
+			pw.flush();
+            responseJson.put("exception", sw.toString());
 		}
 		
 		 OutputStreamWriter writer = new OutputStreamWriter(output, "UTF-8");
@@ -152,10 +168,17 @@ public class SAPOAuthHandler implements RequestStreamHandler{
 			logger.log("....received claims");
 			String identitiesAsString = (String) claims.get("identities");
 			logger.log("....received identities string" + identitiesAsString );
-			JSONObject identities = (JSONObject)parser.parse(identitiesAsString);
-			logger.log("....received identities");
- 			returnValue = (String) identities.get("userId");
- 			logger.log("....received userId from identities" +  returnValue );
+			if(identitiesAsString !=null) {
+				JSONObject identities = (JSONObject)parser.parse(identitiesAsString);
+				logger.log("....received identities");
+	 			returnValue = (String) identities.get("userId");
+	 			logger.log("....received userId from identities" +  returnValue );
+			}else {
+				logger.log("....trying to get cognito username instead");
+				returnValue = (String) claims.get("cognito:username");
+				logger.log("....received cognito user name" + returnValue);
+			}
+			
 		}catch(Exception e) {
 			logger.log("error getting nameid " + e.getMessage());
 		}
