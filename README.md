@@ -64,4 +64,4 @@ This project contains a sample Lambda code in Java to generate OAuth tokens from
 
 ## License
 
-See the [LICENSE](LICENSE) file for details. See the See the [THIRD-PARTY-LICENSES](THIRD-PARTY-LICENSES) file for details about 3rd party software and their licenses.
+See the [LICENSE](LICENSE) file for details. See the [THIRD-PARTY-LICENSES](THIRD-PARTY-LICENSES) file for details about 3rd party software and their licenses.
