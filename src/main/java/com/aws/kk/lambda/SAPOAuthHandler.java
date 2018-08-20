@@ -46,8 +46,6 @@ public class SAPOAuthHandler implements RequestStreamHandler{
 		
 		try {
 			
-			System.out.println("I am here!");
-			
 			JSONObject responseBody = new JSONObject();
 			System.out.println("Got JSON Object");
 			
