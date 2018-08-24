@@ -41,7 +41,7 @@ This project contains a sample Lambda code in Java to generate OAuth tokens from
 		"aws_key_file" : "<S3 file key where you stored the key.pem file. For e.g., aws-sap-saml-keys/key.pem> ",
 		"aws_cert_file" : "<S3 file key where you stored the cert.pem file. For e.g., aws-sap-saml-keys/key.pem> ",
 		"aws_nlb_host":"<Host name of the NLB or ALB that you used to front the SAP system for e.g. sapapigwABAPNLB-xxxxxxxx.elb.us-east-1.amazonaws.com >",
-		"aws_nlb_url":"<Url to call for the NLB. For e.g. https://sapapigwABAPNLB-2ea4de4b7d881a40.elb.us-east-1.amazonaws.com/sap/bc/sec/oauth2/token>",
+		"aws_nlb_url":"<Url to call for the NLB. For e.g. https://sapapigwABAPNLB-xxxxxxxx.elb.us-east-1.amazonaws.com/sap/bc/sec/oauth2/token>",
 		"aws_sap_token_scope": "<OAuth token scope in SAP. For e.g. ZGWSAMPLE_BASIC_0001>",
 		"saml_issuer":"AWSLambda",
 		"saml_nameid_format": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
@@ -54,6 +54,8 @@ This project contains a sample Lambda code in Java to generate OAuth tokens from
 		"oa2_client_password":"<Password for the OAuth Client ID>"
 	}
 ```
+Note: For oa2_token_endpoint and oa2_endpoint_host, make sure you use the correct port number. If you are using NLB, then all requests are proxied through, so you will use the port number of the backend SAP system (for e.g. 44300). If you are using an ALB, then the port where ALB listens to HTTPs request should be used instead of the port of the backend SAP system. This is because, the SAP system makes a URL check between the receipient information in SAML with the port from where the request came in from.
+
 1. Once the SAML/OAuth configuration in backend SAP system is setup, you can get the access token using the same payload as above except the field action which should have a value of 'accessToken'.
 
 ## Additional Resources
