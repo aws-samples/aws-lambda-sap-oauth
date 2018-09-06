@@ -1,4 +1,4 @@
-package com.aws.kk.lambda;
+package com.aws.sap.sample.lambda.sap.oauth;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -110,3 +110,4 @@ public class KeyStoreHandler {
 	
 	
 }
+

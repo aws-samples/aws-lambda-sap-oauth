@@ -1,4 +1,4 @@
-package com.aws.kk.lambda;
+package com.aws.sap.sample.lambda.sap.oauth;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -78,3 +78,4 @@ public class OAuth2SAML2AccessToken {
 		return inData;
 	}
 }
+

@@ -1,4 +1,4 @@
-package com.aws.kk.lambda;
+package com.aws.sap.sample.lambda.sap.oauth;
 
 public class AccessTokenException extends Exception {
 
