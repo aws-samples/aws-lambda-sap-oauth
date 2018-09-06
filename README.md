@@ -53,8 +53,9 @@ This project contains a sample Lambda code in Java to generate OAuth tokens from
 		"oa2_client_id":"<System User ID in SAP system that is created for OAuth Client ID>"
 		"oa2_client_password":"<Password for the OAuth Client ID>"
 	}
-```
-Note: For oa2_token_endpoint and oa2_endpoint_host, make sure you use the correct port number. If you are using NLB, then all requests are proxied through, so you will use the port number of the backend SAP system (for e.g. 44300). If you are using an ALB, then the port where ALB listens to HTTPs request should be used instead of the port of the backend SAP system. This is because, the SAP system makes a URL check between the receipient information in SAML with the port from where the request came in from.
+
+Note: 
+1. For oa2_token_endpoint and oa2_endpoint_host, make sure you use the correct port number. If you are using NLB, then all requests are proxied through, so you will use the port number of the backend SAP system (for e.g. 44300). If you are using an ALB, then the port where ALB listens to HTTPs request should be used instead of the port of the backend SAP system. This is because, the SAP system makes a URL check between the receipient information in SAML with the port from where the request came in from.
 
 1. Once the SAML/OAuth configuration in backend SAP system is setup, you can get the access token using the same payload as above except the field action which should have a value of 'accessToken'.
 
