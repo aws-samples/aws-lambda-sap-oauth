@@ -17,7 +17,7 @@ This project contains a sample Lambda code in Java to generate OAuth tokens from
 ### Installing
 
 1. Clone this repository into a folder of choice
-1. Build the project using one of the options provided [here](https://docs.aws.amazon.com/lambda/latest/dg/java-create-jar-pkg-maven-no-ide.html "here"). I recommend build using [Eclipse plugin.](https://docs.aws.amazon.com/lambda/latest/dg/java-create-jar-pkg-maven-and-eclipse.html "Eclipse plugin."). Also, you only need to build the project. So, you will only perform only step 2 in this link.
+1. Build the project using one of the options provided [here](https://docs.aws.amazon.com/lambda/latest/dg/java-create-jar-pkg-maven-no-ide.html "here") Also, you only need to build the project. So, you will only perform only step 2 in this link.
 1. Build process will create a 'lambda-sap-oauth-0.0.1-SNAPSHOT.jar' file in the 'target' sub-folder
 1. Create a lambda function (for e.g. sap-oauth-token-generator) using the 'lambda-sap-oauth-0.0.1-SNAPSHOT.jar' created above
 1. Create an Amazon Cognito User Pool and an user ID within that pool. Check [here](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools.html "here") for more info.
