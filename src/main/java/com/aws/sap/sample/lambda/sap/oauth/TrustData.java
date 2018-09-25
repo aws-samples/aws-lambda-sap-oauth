@@ -23,7 +23,8 @@ public class TrustData {
 	private X509Certificate getSigningCertificate()
 			throws IOException, KeyStoreException, NoSuchAlgorithmException, CertificateException, UnrecoverableKeyException {
 		
-		Map<String, Object> keys = KeyStoreHandler.getKeys(cfg);
+		KeyStoreHandler _KeyStoreHandler = new S3KeyStoreHandler();
+		Map<String, Object> keys = _KeyStoreHandler.getKeys(cfg);
 		return (X509Certificate)keys.get(KeyStoreHandler.KS_PUBLIC_KEY);
 	}
 	

@@ -27,10 +27,9 @@ public class TestLocalSamlTokenFactory {
     configProps.setProperty(PropertyHandler.CFG_SAML_AUDIENCE_RESTRICTION, "NPL_001");
     configProps.setProperty(PropertyHandler.CFG_SAML_ISSUER, "AWSLambda");
     configProps.setProperty(PropertyHandler.CFG_OA2_CLIENT_ID, "abc123");
-    configProps.setProperty(PropertyHandler.CFG_AWS_BUCKET, "pmotyko-aws-lambda-sap-oauth");
     configProps.setProperty(PropertyHandler.CFG_AWS_KEY_FILE, "key.pem");
     configProps.setProperty(PropertyHandler.CFG_AWS_CERT_FILE, "certificate.pem");
-    LocalSamlTokenFactory localSamlTokenFactory = (LocalSamlTokenFactory) LocalSamlTokenFactory.getInstance(configProps, _logger);
+    LocalSamlTokenFactory localSamlTokenFactory = (LocalSamlTokenFactory) LocalSamlTokenFactory.getInstance(configProps, _logger, new TestKeyStoreHandler());
     Transformer transformer = TransformerFactory.newInstance().newTransformer();
     transformer.setOutputProperty(OutputKeys.INDENT, "yes");
     transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
