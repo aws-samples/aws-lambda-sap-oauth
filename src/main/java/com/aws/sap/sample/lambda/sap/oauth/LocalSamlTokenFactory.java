@@ -72,9 +72,15 @@ public class LocalSamlTokenFactory implements SamlTokenFactory {
 	static private SAMLObjectBuilder assertionBuilder = null;
 	
 	static private ExecutionLogger _logger;
+	static private KeyStoreHandler _keyStoreHandler;
 	
-	//Get Factory Instance
+	//Get Factory Instance using default S3 Keystore Handler
 	public static SamlTokenFactory getInstance(Properties configurationProperties, ExecutionLogger logger) throws ConfigurationException {
+		return LocalSamlTokenFactory.getInstance(configurationProperties, logger, new S3KeyStoreHandler());
+	}
+
+	public static SamlTokenFactory getInstance(Properties configurationProperties, ExecutionLogger logger, KeyStoreHandler keyStoreHandler) throws ConfigurationException {
+		_keyStoreHandler = keyStoreHandler;
 		_logger = logger;
 		_logger.log("...Calling getSAMLBuilder");
 		getSAMLBuilder();
@@ -89,7 +95,7 @@ public class LocalSamlTokenFactory implements SamlTokenFactory {
 	private Credential getSigningCredential(Properties _cfg) throws IOException, KeyStoreException,
 			NoSuchAlgorithmException, CertificateException, UnrecoverableKeyException, MissingPropertyException {
 		if (this._signingCredential == null) { // check configuration
-			Map<String, Object> keys = KeyStoreHandler.getKeys(_cfg);
+			Map<String, Object> keys = _keyStoreHandler.getKeys(_cfg);
 			X509Certificate pubKey = (X509Certificate)keys.get(KeyStoreHandler.KS_PUBLIC_KEY);
 			PrivateKey pk = (PrivateKey)keys.get(KeyStoreHandler.KS_PRIVATE_KEY);
 			this._signingCredential = SecurityHelper.getSimpleCredential(pubKey.getPublicKey(), pk);

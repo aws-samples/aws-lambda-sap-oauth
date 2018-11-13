@@ -28,7 +28,7 @@ This project contains a sample Lambda code in Java to generate OAuth tokens from
 
 	`$> openssl req -newkey rsa:2048 -nodes -keyout tmpkey.pem -x509 -days 365 -out certificate.pem`
 
-	`$>openssl pkcs8 -topk8 -inform PEM -outform PEM -in tmpkey.pem -out key.pem -nocrypt`
+	`$> openssl pkcs8 -topk8 -inform PEM -outform PEM -in tmpkey.pem -out key.pem -nocrypt`
 1. This will create two files, certificate.pem and key.pem. Upload these files to a S3 bucket in the same acount/region where you created the lambda function above
 1. To setup SAML/OAuth in SAP, you will need a metadata XML file. You can generate it by calling the API (POST method) you created above with the following JSON payload.
 
