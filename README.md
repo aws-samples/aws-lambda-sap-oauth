@@ -28,31 +28,34 @@ This project contains a sample Lambda code in Java to generate OAuth tokens from
 
 	`$> openssl req -newkey rsa:2048 -nodes -keyout tmpkey.pem -x509 -days 365 -out certificate.pem`
 
-	`$>openssl pkcs8 -topk8 -inform PEM -outform PEM -in tmpkey.pem -out key.pem -nocrypt`
+	`$> openssl pkcs8 -topk8 -inform PEM -outform PEM -in tmpkey.pem -out key.pem -nocrypt`
 1. This will create two files, certificate.pem and key.pem. Upload these files to a S3 bucket in the same acount/region where you created the lambda function above
 1. To setup SAML/OAuth in SAP, you will need a metadata XML file. You can generate it by calling the API (POST method) you created above with the following JSON payload.
 
-	```json
-	{
-		"action" : "metadata",
-		"aws_logging_enabled" : "true",
-		"aws_logs_to_screen" : "true",
-		"aws_bucket" : "<S3 bucket where you stored the key.pem and cert.pem files>",
-		"aws_key_file" : "<S3 file key where you stored the key.pem file. For e.g., aws-sap-saml-keys/key.pem> ",
-		"aws_cert_file" : "<S3 file key where you stored the cert.pem file. For e.g., aws-sap-saml-keys/key.pem> ",
-		"aws_nlb_host":"<Host name of the NLB or ALB that you used to front the SAP system for e.g. sapapigwABAPNLB-xxxxxxxx.elb.us-east-1.amazonaws.com >",
-		"aws_nlb_url":"<Url to call for the NLB. For e.g. https://sapapigwABAPNLB-xxxxxxxx.elb.us-east-1.amazonaws.com/sap/bc/sec/oauth2/token>",
-		"aws_sap_token_scope": "<OAuth token scope in SAP. For e.g. ZGWSAMPLE_BASIC_0001>",
-		"saml_issuer":"AWSLambda",
-		"saml_nameid_format": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
-		"oa2_endpoint_host": "<OAuth token end point host of the backend SAP system for e.g. vhcalnplci.dummy.nodomain:44300>",
-		"oa2_token_endpoint" : "<OAuth token end point of the backend SAP system for e.g. https://vhcalnplci.dummy.nodomain:44300/sap/bc/sec/oauth2/token>",
-		"scope" : "<OAuth token scope in SAP. For e.g. ZGWSAMPLE_BASIC_0001>",
-		"saml_session_authentication": "urn:none",
-		"saml_audience_restriction":"<SAML Audience for the backend SAP system for e.g. NPL_001",
-		"oa2_client_id":"<System User ID in SAP system that is created for OAuth Client ID>"
-		"oa2_client_password":"<Password for the OAuth Client ID>"
-	}
+````json
+    {
+        "action" : "metadata",
+        "scope" : "<OAuth token scope in SAP. For e.g. ZGWSAMPLE_BASIC_0001>",
+        "properties" : {
+            "aws_logging_enabled" : "true",
+            "aws_logs_to_screen" : "true",
+            "aws_bucket" : "<S3 bucket where you stored the key.pem and cert.pem files. For e.g., aws-sap-saml-keys>",
+            "aws_key_file" : "<S3 file key where you stored the key.pem file. For e.g., key.pem> ",
+            "aws_cert_file" : "<S3 file key where you stored the cert.pem file. For e.g., cert.pem> ",
+            "aws_nlb_host":"<Host name of the NLB or ALB that you used to front the SAP system for e.g. sapapigwABAPNLB-xxxxxxxx.elb.us-east-1.amazonaws.com >",
+            "aws_nlb_url":"<Url to call for the NLB. For e.g. https://sapapigwABAPNLB-xxxxxxxx.elb.us-east-1.amazonaws.com/sap/bc/sec/oauth2/token>",
+            "aws_sap_token_scope": "<OAuth token scope in SAP. For e.g. ZGWSAMPLE_BASIC_0001>",
+            "saml_issuer":"AWSLambda",
+            "saml_nameid_format": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+            "oa2_endpoint_host": "<OAuth token end point host of the backend SAP system for e.g. vhcalnplci.dummy.nodomain:44300>",
+            "oa2_token_endpoint" : "<OAuth token end point of the backend SAP system for e.g. https://vhcalnplci.dummy.nodomain:44300/sap/bc/sec/oauth2/token>",
+            "saml_session_authentication": "urn:none",
+            "saml_audience_restriction":"<SAML Audience for the backend SAP system for e.g. NPL_001",
+            "oa2_client_id":"<System User ID in SAP system that is created for OAuth Client ID>",
+            "oa2_client_password":"<Password for the OAuth Client ID>"
+        }
+    }
+````
 
 Note: 
 1. For oa2_token_endpoint and oa2_endpoint_host, make sure you use the correct port number. If you are using NLB, then all requests are proxied through, so you will use the port number of the backend SAP system (for e.g. 44300). If you are using an ALB, then the port where ALB listens to HTTPs request should be used instead of the port of the backend SAP system. This is because, the SAP system makes a URL check between the receipient information in SAML with the port from where the request came in from.

@@ -93,7 +93,7 @@ public class SAPOAuthHandler implements RequestStreamHandler{
 			responseJson.put("statusCode", "400");
 			ex.printStackTrace(pw);
 			pw.flush();
-            responseJson.put("exception", sw.toString());
+      responseJson.put("exception", sw.toString());
 		}
 		
 		 OutputStreamWriter writer = new OutputStreamWriter(output, "UTF-8");
